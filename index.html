@@ -1,47 +1,21 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Run Main.tsx</title>
-  <!-- React + ReactDOM -->
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <!-- Babel برای تبدیل TSX در مرورگر -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Run Main.tsx</title>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 <body>
-  <div id="root"></div>
+<div id="root"></div>
 
-  <input type="file" id="fileInput" accept=".ts,.tsx" />
-  <p id="status">یک فایل Main.tsx انتخاب کنید تا اجرا شود.</p>
+<script type="text/babel" data-presets="typescript,react" src="./Main.tsx"></script>
 
-  <script type="text/javascript">
-    const root = document.getElementById('root');
-    const input = document.getElementById('fileInput');
-    const status = document.getElementById('status');
-
-    input.addEventListener('change', async (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      status.textContent = `بارگذاری ${file.name} ...`;
-
-      const text = await file.text();
-
-      // حذف محتوای قبلی
-      root.innerHTML = '';
-
-      // ساخت المان script برای Babel
-      const script = document.createElement('script');
-      script.type = 'text/babel';
-      script.setAttribute('data-presets', 'typescript,react');
-      script.textContent = text;
-
-      document.body.appendChild(script);
-
-      // آپدیت وضعیت
-      status.textContent = `${file.name} اجرا شد!`;
-    });
-  </script>
+<script type="text/babel" data-presets="typescript,react">
+  // فقط اگر Main.tsx export default App داشته باشه
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
 </body>
 </html>
