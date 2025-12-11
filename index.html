@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سایت من</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 30px;
+        }
+        
+        .content {
+            line-height: 1.8;
+            font-size: 18px;
+        }
+        
+        .content p {
+            margin-bottom: 15px;
+        }
+        
+        .code-wrapper {
+            position: relative;
+            margin: 20px 0;
+        }
+        
+        code {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            border-radius: 8px;
+            padding: 20px;
+            padding-top: 45px;
+            display: block;
+            font-family: 'Courier New', monospace;
+            direction: ltr;
+            text-align: left;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+        
+        .copy-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+        
+        .copy-btn.copied {
+            background: #10b981;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>سلام</h1>
+        
+        <div class="content" id="content">
+            <!-- متن خودتون رو اینجا بنویسید -->
+            اموزش کد ها
+          کد Addon:
+          ```
+          Addon (Package)
+          ```
+          دستور When:
+          ```
+          When (Code/val) == "(event)" {
+            //Your Code
+          }
+          ```
+          دساور Return:
+          ```
+          return (Count);
+          ```
+          دستور های Addon
+          مثال:
+          ```
+          Addon Math
+          PrintSys(1 math=+ 2)
+          ```
+          دستور PrintSys:
+          ```
+          PrintSys("(Text)")
+          ```
+          ایجاد val:
+          ```
+          Create Val:example 1
+          ```
+          ایجاد String:
+          ```
+          Create Example Str:"(text)"
+          ```
+        </div>
+    </div>
+    
+    <script>
+        function formatContent() {
+            const contentDiv = document.getElementById('content');
+            let text = contentDiv.textContent;
+            
+            // پردازش متن و تبدیل ``` به تگ code
+            const parts = text.split('```');
+            let html = '';
+            
+            for (let i = 0; i < parts.length; i++) {
+                if (i % 2 === 0) {
+                    // متن عادی
+                    const paras = parts[i].trim().split('\n\n');
+                    paras.forEach(para => {
+                        para = para.trim();
+                        if (para) {
+                            html += '<p>' + para.replace(/\n/g, '<br>') + '</p>';
+                        }
+                    });
+                } else {
+                    // کد
+                    html += '<div class="code-wrapper"><button class="copy-btn" onclick="copyCode(this)">کپی</button><code>' + parts[i] + '</code></div>';
+                }
+            }
+            
+            contentDiv.innerHTML = html;
+        }
+        
+        function copyCode(btn) {
+            const code = btn.nextElementSibling;
+            const text = code.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btn.textContent;
+                btn.textContent = '✓ کپی شد';
+                btn.classList.add('copied');
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+        
+        // اجرای فرمت بعد از بارگذاری صفحه
+        window.onload = formatContent;
+    </script>
+</body>
+</html>
